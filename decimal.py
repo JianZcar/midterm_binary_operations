@@ -42,15 +42,3 @@ def decimal_to_binary(decimal: str = None):
 
 
 decimal_to_binary()
-# def decimal_to_binary(decimal: int = None):
-#     decimal = int(input('Enter Decimal -> ')) if decimal is None else decimal
-#     binary = ''
-#     while True:
-#         bit, decimal = [decimal % 2, decimal // 2]
-#         binary += str(bit)
-#
-#         if decimal == 0:
-#             break
-#     binary = binary[::-1]
-#     print(binary)
-#     pass
