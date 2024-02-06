@@ -16,7 +16,7 @@ def binary_to_decimal(binary: str = ''):
         return None
 
     def inner(bin_in: str, power: int, add: bool, reverse: bool):
-        out, bin_in = [0, bin_in[::-1] if reverse else bin_in]
+        out, bin_in = 0, bin_in[::-1] if reverse else bin_in
         for bit in bin_in:
             out += int(bit) * (2**power)
             power += 1 if add else -1
@@ -31,20 +31,6 @@ def binary_to_decimal(binary: str = ''):
         decimal = inner(binary, 0, True, True)
 
     print(decimal)
-
-
-def decimal_to_binary(decimal: int = None):
-    decimal = int(input('Enter Decimal -> ')) if decimal is None else decimal
-    binary = ''
-    while True:
-        bit, decimal = [decimal % 2, decimal // 2]
-        binary += str(bit)
-
-        if decimal == 0:
-            break
-    binary = binary[::-1]
-    print(binary)
-    pass
 
 
 binary_to_decimal()
