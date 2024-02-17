@@ -28,6 +28,7 @@ def decimal_to_binary(decimal: str = None):
     def inner(decimal_in, divisor: int or float, is_fraction: bool, max_cap: int = None):
         out = ''
         i = 0
+
         while True:
             i += 1
             bit = (decimal_in % divisor if not is_fraction else (1 if decimal_in / divisor >= 1 else 0))
@@ -45,9 +46,9 @@ def decimal_to_binary(decimal: str = None):
     if '-' in decimal:
         decimal = decimal.replace('-', '')
         negative = True
+
     whole, fraction = (int(decimal.split('.')[0]) if '.' in decimal else int(decimal),
                        float(f'0.{decimal.split('.')[1]}' if '.' in decimal else '0.0'))
-
     binary = inner(whole, 2, False)
 
     if fraction != 0.0:

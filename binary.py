@@ -3,7 +3,7 @@ def binary_input(binary: str = None):
 
 
 def is_binary(binary: str) -> bool:
-    characters = "01. "
+    characters = "01."
     if not any(binary) or binary.count('.') > 1:
         return False
     for char in binary:
@@ -60,6 +60,7 @@ def binary_to_decimal(binary: str = None):
 
     def inner(bin_in: str, power: int, add: bool, reverse: bool):
         out, bin_in = 0, bin_in[::-1] if reverse else bin_in
+
         for index, bit in enumerate(bin_in):
             if add and index == len(bin_in) - 1:
                 out += int(bit) * (-1 * (2**power))
@@ -90,7 +91,7 @@ def twos_compliment(binary: str = ''):
     has_fraction = True if '.' in binary else False
 
     if '1' not in binary:
-        print('Cannot complement a 0 value')
+        return make_16_bits('0')
 
     binary = make_16_bits(binary)
 
