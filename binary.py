@@ -1,5 +1,9 @@
-def is_binary(binary: str = '') -> bool:
-    characters = "01."
+def binary_input(binary: str = None):
+    return input('Enter Binary -> ') if binary is None else binary
+
+
+def is_binary(binary: str) -> bool:
+    characters = "01. "
     if not any(binary) or binary.count('.') > 1:
         return False
     for char in binary:
@@ -8,79 +12,99 @@ def is_binary(binary: str = '') -> bool:
     return True
 
 
-def binary_to_decimal(binary: str = ''):
-    binary = input('Enter Binary -> ') if binary == '' else binary
+def four_bit_spacer(binary: str = None):
+    binary = binary_input(binary)
 
     if not is_binary(binary):
         print('Input Error')
         return None
 
+    if '.' in binary:
+        whole, fraction = binary.split('.')
+        whole = ' '.join([whole[max(i-4, 0):i] for i in range(len(whole), 0, -4)][::-1])
+        fraction = ' '.join([fraction[i:i+4] for i in range(0, len(fraction), 4)])
+        binary = whole + '.' + fraction
+    else:
+        binary = ' '.join([binary[max(i-4, 0):i] for i in range(len(binary), 0, -4)][::-1])
+
+    return binary
+
+
+def make_16_bits(binary: str = None):
+    binary = binary_input(binary)
+
+    if not is_binary(binary):
+        print('Input Error')
+        return None
+
+    if '.' in binary:
+        binary = f'{make_16_bits(binary.split('.')[0])}.{make_16_bits(binary.split('.')[1][::-1])[::-1]}'
+
+    elif len(binary.replace(' ', '')) > 16:
+        print('Input binary is more than 16 bits')
+        return None
+
+    binary = binary.zfill(16)
+
+    return binary
+
+
+def binary_to_decimal(binary: str = None):
+    binary = binary_input(binary)
+
+    if not is_binary(binary):
+        print('Input Error')
+        return None
+
+    binary = make_16_bits(binary)
+
     def inner(bin_in: str, power: int, add: bool, reverse: bool):
         out, bin_in = 0, bin_in[::-1] if reverse else bin_in
-        for bit in bin_in:
-            out += int(bit) * (2**power)
+        for index, bit in enumerate(bin_in):
+            if add and index == len(bin_in) - 1:
+                out += int(bit) * (-1 * (2**power))
+            else:
+                out += int(bit) * (2**power)
             power += 1 if add else -1
         return out
 
     if binary.count('.') == 1:
-        left, right = binary.split('.')
-        decimal = inner(left, 0, True, True)
-        decimal += inner(right, -1, False, False)
+        whole, fraction = binary.split('.')
+        decimal = inner(whole, 0, True, True)
+        decimal += inner(fraction, -1, False, False)
 
     else:
         decimal = inner(binary, 0, True, True)
 
-    print(binary)
-    return binary
+    return decimal
 
 
 def twos_compliment(binary: str = ''):
-    binary = input('Enter Binary -> ') if binary == '' else binary
+    binary = binary_input(binary)
+    dot = None
 
     if not is_binary(binary):
         print('Input Error')
         return None
 
-    # Reverse the bits
+    has_fraction = True if '.' in binary else False
+
+    if '1' not in binary:
+        print('Cannot complement a 0 value')
+
+    binary = make_16_bits(binary)
+
+    if has_fraction:
+        dot = len(binary.split('.')[0])
+        binary = binary.replace('.', '')
+
     binary = ''.join('1' if bit == '0' else '0' for bit in binary)
-
-    # Add 1 to the result
     binary = bin(int(binary, 2) + 1)[2:]
-
-    print(binary)
-    return binary
-
-
-def four_bit_spacer(binary: str = ''):
-    binary = input('Enter Binary -> ') if binary == '' else binary
-
-    if not is_binary(binary):
-        print('Input Error')
-        return None
-
-    # Add a space every four bits
-    binary = ' '.join([binary[i:i+4] for i in range(0, len(binary), 4)])
+    binary = f'{binary[:dot]}.{binary[dot:]}' if has_fraction else binary
 
     return binary
 
 
-def make_16_bits(binary: str = ''):
-    binary = input('Enter Binary -> ') if binary == '' else binary
-
-    if not is_binary(binary):
-        print('Input Error')
-        return None
-
-    if len(binary) > 16:
-        print('Input binary is more than 16 bits')
-        return None
-
-    # Pad with leading zeros
-    binary = binary.zfill(16)
-    binary = four_bit_spacer(binary)
-
-    print(binary)
-    return binary
-
-
-make_16_bits()
+if __name__ == '__main__':
+    value = binary_input()
+    print(binary_to_decimal(value))
