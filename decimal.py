@@ -1,4 +1,4 @@
-from binary import (twos_compliment as binary_twos_compliment, four_bit_spacer as binary_four_bit_spacer,
+from binary import (twos_compliment as binary_twos_compliment, n_bit_spacer as binary_four_bit_spacer,
                     make_32_bits as binary_make_32_bits)
 
 
