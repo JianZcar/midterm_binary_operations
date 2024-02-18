@@ -1,5 +1,5 @@
 from binary import (twos_compliment as binary_twos_compliment, four_bit_spacer as binary_four_bit_spacer,
-                    make_16_bits as binary_make_16_bits)
+                    make_32_bits as binary_make_32_bits)
 
 
 def decimal_input(decimal: str = None):
@@ -54,7 +54,7 @@ def decimal_to_binary(decimal: str = None):
     if fraction != 0.0:
         binary += f'.{inner(fraction, 0.5, True, 10)}'
 
-    binary = binary_twos_compliment(binary) if negative else binary_make_16_bits(binary)
+    binary = binary_twos_compliment(binary) if negative else binary_make_32_bits(binary)
     return binary
 
 

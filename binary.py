@@ -30,21 +30,22 @@ def four_bit_spacer(binary: str = None):
     return binary
 
 
-def make_16_bits(binary: str = None):
+def make_32_bits(binary: str = None):
     binary = binary_input(binary)
+    bits = 32
 
     if not is_binary(binary):
         print('Input Error')
         return None
 
     if '.' in binary:
-        binary = f'{make_16_bits(binary.split('.')[0])}.{make_16_bits(binary.split('.')[1][::-1])[::-1]}'
+        binary = f'{make_32_bits(binary.split('.')[0])}.{make_32_bits(binary.split('.')[1][::-1])[::-1]}'
 
-    elif len(binary.replace(' ', '')) > 16:
-        print('Input binary is more than 16 bits')
+    elif len(binary.replace(' ', '')) > bits:
+        print(f'Input binary is more than {bits} bits')
         return None
 
-    binary = binary.zfill(16)
+    binary = binary.zfill(bits)
 
     return binary
 
@@ -56,7 +57,7 @@ def binary_to_decimal(binary: str = None):
         print('Input Error')
         return None
 
-    binary = make_16_bits(binary)
+    binary = make_32_bits(binary)
 
     def inner(bin_in: str, power: int, add: bool, reverse: bool):
         out, bin_in = 0, bin_in[::-1] if reverse else bin_in
@@ -91,9 +92,9 @@ def twos_compliment(binary: str = ''):
     has_fraction = True if '.' in binary else False
 
     if '1' not in binary:
-        return make_16_bits('0')
+        return make_32_bits('0')
 
-    binary = make_16_bits(binary)
+    binary = make_32_bits(binary)
 
     if has_fraction:
         dot = len(binary.split('.')[0])
