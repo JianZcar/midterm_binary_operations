@@ -18,7 +18,6 @@ def n_bit_spacer(binary: str = None, bit: int = 4):
 
     if binary_array[1] is not None:
         binary = f'{binary}.{' '.join([binary_array[1][i:i+bit] for i in range(0, len(binary_array[1]), bit)])}'
-
     return binary
 
 
@@ -33,7 +32,6 @@ def make_32_bits(binary: str = None):
         return None
 
     binary = binary.zfill(bits)
-
     return binary
 
 
@@ -82,7 +80,6 @@ def twos_compliment(binary: str = None):
     binary = ''.join('1' if bit == '0' else '0' for bit in binary)
     binary = bin(int(binary, 2) + 1)[2:]
     binary = f'{binary[:dot]}.{binary[dot:]}' if has_fraction else binary
-
     return binary
 
 
@@ -106,12 +103,10 @@ def binary_to_hexa(binary: str = None):
             decimal = binary_to_decimal(f_bit)
             hexa += f'{decimal}' if decimal < 10 else hexa_character[decimal-10]
         return hexa
-
     hexadecimal = inner(binary_array[0])
 
     if binary_array[1] is not None:
         hexadecimal += f'.{inner(binary_array[1])}'
-
     return hexadecimal
 
 
@@ -135,11 +130,10 @@ def binary_to_octal(binary: str = None):
             decimal = binary_to_decimal(th_bit)
             octal_ += f'{decimal}'
         return octal_
-
     octal = inner(binary_array[0])
+
     if binary_array[1] is not None:
         octal += f'.{inner(binary_array[1])}'
-
     return octal
 
 
