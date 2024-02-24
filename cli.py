@@ -23,10 +23,7 @@ def dump(x):
 def main_menu():
     while True:
         print("\nMain Menu:")
-        choices = [
-            "Number Operations",
-            "Number Conversion",
-            "Exit"]
+        choices = ["Number Operations", "Number Conversion", "Exit"]
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
         choice = int(input("--> "))
         print()
@@ -35,12 +32,7 @@ def main_menu():
 
 def number_operation():
     while True:
-        choices = [
-            "Binary Operations",
-            "Decimal Operations",
-            "Octal Operations",
-            "Hexa Operations",
-            "Back"]
+        choices = ["Binary Operations", "Decimal Operations", "Octal Operations", "Hexa Operations", "Back"]
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
 
         choice = int(input("--> "))
@@ -60,12 +52,7 @@ def number_operation():
 
 def number_conversion():
     while True:
-        choices = [
-            "Binary Conversions",
-            "Decimal Conversions",
-            "Octal Conversions",
-            "Hexa Conversions",
-            "Back"]
+        choices = ["Binary Conversions", "Decimal Conversions", "Octal Conversions", "Hexa Conversions", "Back"]
         definitions, proper_names = (["binary", "decimal", "octal", "hexa"],
                                      ["Binary", "Decimal", "Octal", "Hexadecimal"])
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
