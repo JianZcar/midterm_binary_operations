@@ -14,12 +14,6 @@ def null():
     return [a, b, c, d]
 
 
-def dump(x):
-    # this dumps unused variables
-    x = None if x is not None else None
-    return x
-
-
 def main_menu():
     while True:
         print("\nMain Menu:")
@@ -62,8 +56,7 @@ def number_conversion():
             break
 
         removed_chosen, removed_proper = definitions.copy(), proper_names.copy()
-        removed = [removed_chosen.pop(choice - 1), removed_proper.pop(choice - 1)]
-        dump(removed)
+        removed_chosen.pop(choice - 1), removed_proper.pop(choice - 1)
         print()
         input_num = eval(f"{definitions[choice-1]}_input")()
         outputs = [(eval(f"{definitions[choice-1]}_to_{system}")(input_num), system) for system in removed_chosen]

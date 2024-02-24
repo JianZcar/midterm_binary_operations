@@ -52,7 +52,7 @@ def decimal_to_binary(decimal: str = None, make_n_bits: bool = True):
     binary = inner(whole, 2, False)
 
     if fraction != 0.0:
-        binary += f'.{inner(fraction, 0.5, True, 10)}'
+        binary += f'.{inner(fraction, 0.5, True, 36)}'
 
     if not make_n_bits:
         return binary
