@@ -21,11 +21,10 @@ def n_bit_spacer(binary: str = None, bit: int = 4):
     return binary
 
 
-def make_32_bits(binary: str = None):
+def make_n_bits(binary: str = None, bits: int = 36):
     """Make into 36 bits"""
-    bits = 36
     if '.' in binary:
-        binary = f'{make_32_bits(binary.split('.')[0])}.{make_32_bits(binary.split('.')[1][::-1])[::-1]}'
+        binary = f'{make_n_bits(binary.split('.')[0])}.{make_n_bits(binary.split('.')[1][::-1])[::-1]}'
 
     elif len(binary.replace(' ', '')) > bits:
         print(f'Input binary is more than {bits} bits')
@@ -42,7 +41,7 @@ def binary_to_decimal(binary: str = None):
         print('Input Error')
         return None
 
-    binary = make_32_bits(binary)
+    binary = make_n_bits(binary)
     binary_array = [binary, None] if '.' not in binary else binary.split('.')
 
     def inner(bin_in: str, power: int, add: bool, reverse: bool):
@@ -69,9 +68,9 @@ def twos_compliment(binary: str = None):
     has_fraction = True if '.' in binary else False
 
     if '1' not in binary:
-        return make_32_bits('0')
+        return make_n_bits('0')
 
-    binary = make_32_bits(binary)
+    binary = make_n_bits(binary)
 
     if has_fraction:
         dot = len(binary.split('.')[0])
@@ -90,8 +89,8 @@ def binary_to_hexa(binary: str = None):
         print('Input Error')
         return None
 
-    binary = make_32_bits(binary)
-    hexa_character = ['A', 'B', 'C', 'D', 'E', 'F']
+    binary = make_n_bits(binary)
+    hexa_characters = ['A', 'B', 'C', 'D', 'E', 'F']
     binary_array = [n_bit_spacer(binary.split('.')[0]).split() if '.' in binary
                     else n_bit_spacer(binary).split(),
                     n_bit_spacer(binary.split('.')[1]).split() if '.' in binary
@@ -101,7 +100,7 @@ def binary_to_hexa(binary: str = None):
         hexa = ''
         for f_bit in b_array:
             decimal = binary_to_decimal(f_bit)
-            hexa += f'{decimal}' if decimal < 10 else hexa_character[decimal-10]
+            hexa += f'{decimal}' if decimal < 10 else hexa_characters[decimal-10]
         return hexa
     hexadecimal = inner(binary_array[0])
 
@@ -117,7 +116,7 @@ def binary_to_octal(binary: str = None):
         print('Input Error')
         return None
 
-    binary = make_32_bits(binary)
+    binary = make_n_bits(binary)
 
     binary_array = [n_bit_spacer(binary.split('.')[0], 3).split() if '.' in binary
                     else n_bit_spacer(binary, 3).split(),
@@ -139,7 +138,7 @@ def binary_to_octal(binary: str = None):
 
 if __name__ == '__main__':
     value = binary_input()
-    print(n_bit_spacer(make_32_bits(value)))
+    print(n_bit_spacer(make_n_bits(value)))
     print(binary_to_decimal(value))
     print(binary_to_hexa(value))
     print(binary_to_octal(value))

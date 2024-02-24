@@ -1,5 +1,7 @@
-from binary import (twos_compliment as binary_twos_compliment, n_bit_spacer as binary_four_bit_spacer,
-                    make_32_bits as binary_make_32_bits)
+from binary import (twos_compliment as binary_twos_compliment, n_bit_spacer as binary_n_bit_spacer,
+                    make_n_bits as binary_make_n_bits)
+
+from binary import binary_to_octal, binary_to_hexa
 
 
 def decimal_input(decimal: str = None):
@@ -8,16 +10,13 @@ def decimal_input(decimal: str = None):
 
 def is_decimal(decimal: str):
     try:
-        if '.' in decimal:
-            float(decimal)
-        else:
-            int(decimal)
+        float(decimal)
         return True
     except ValueError:
         return False
 
 
-def decimal_to_binary(decimal: str = None):
+def decimal_to_binary(decimal: str = None, make_n_bits: bool = True):
     decimal = decimal_input(decimal)
     negative = False
 
@@ -44,7 +43,8 @@ def decimal_to_binary(decimal: str = None):
         return out
 
     if '-' in decimal:
-        decimal = decimal.replace('-', '')
+        decimal = decimal.replace('-',
+                                  '')
         negative = True
 
     whole, fraction = (int(decimal.split('.')[0]) if '.' in decimal else int(decimal),
@@ -54,11 +54,36 @@ def decimal_to_binary(decimal: str = None):
     if fraction != 0.0:
         binary += f'.{inner(fraction, 0.5, True, 10)}'
 
-    binary = binary_twos_compliment(binary) if negative else binary_make_32_bits(binary)
+    if not make_n_bits:
+        return binary
+
+    binary = binary_twos_compliment(binary) if negative else binary_make_n_bits(binary)
     return binary
+
+
+def decimal_to_octal(decimal: str = None):
+    decimal = decimal_input(decimal)
+
+    if not is_decimal(decimal):
+        print('Input Error')
+        return None
+
+    return binary_to_octal(decimal_to_binary(decimal))
+
+
+def decimal_to_hexa(decimal: str = None):
+    decimal = decimal_input(decimal)
+
+    if not is_decimal(decimal):
+        print('Input Error')
+        return None
+
+    return binary_to_hexa(decimal_to_binary(decimal))
 
 
 if __name__ == '__main__':
     value = decimal_input()
-    print(binary_four_bit_spacer(decimal_to_binary(value)))
+    print(binary_n_bit_spacer(decimal_to_binary(value)))
     print(decimal_to_binary(value))
+    print(decimal_to_octal(value))
+    print(decimal_to_hexa(value))
