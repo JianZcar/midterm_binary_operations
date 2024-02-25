@@ -23,6 +23,8 @@ def main_menu():
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
         choice = int(input("--> "))
         print()
+        print(choices[choice - 1])
+        print()
         [number_operation, number_conversion, exit][choice-1]()
 
 
@@ -33,13 +35,15 @@ def number_operation():
 
         choice = int(input("--> "))
         print()
+        print(choices[choice-1])
+        print()
         if choice == 6:
             break
         elif choice == 5:
             print(n_bit_spacer(twos_compliment()))
-        chosen_mode = choices[choice - 1].lower()
-        print(chosen_mode)
-        print(n_bit_spacer(eval(f'binary_{chosen_mode}')()))
+        else:
+            chosen_mode = choices[choice - 1].lower()
+            print(n_bit_spacer(eval(f'binary_{chosen_mode}')()))
         input("\nPress Enter to Continue\n")
 
 
@@ -51,12 +55,15 @@ def number_conversion():
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
         choice = int(input("--> "))
 
+        print()
+        print(choices[choice - 1])
+        print()
+
         if choices[choice-1] == 'Back':
             break
 
         removed_chosen, removed_proper = definitions.copy(), proper_names.copy()
         removed_chosen.pop(choice - 1), removed_proper.pop(choice - 1)
-        print()
         input_num = eval(f"{definitions[choice-1]}_input")()
         outputs = [(eval(f"{definitions[choice-1]}_to_{system}")(input_num), system) for system in removed_chosen]
 
