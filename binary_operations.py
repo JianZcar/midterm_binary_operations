@@ -1,4 +1,4 @@
-from binary import make_n_bits, binary_input, is_binary
+from binary import make_n_bits, binary_input, is_binary, binary_to_decimal, twos_compliment
 
 
 def dot_adder(binary1: str, binary2: str):
@@ -8,7 +8,7 @@ def dot_adder(binary1: str, binary2: str):
 
 
 def binary_operations(binary1: str, binary2: str, operation: int):
-    mode = ['add', 'sub', 'mult', 'div'][operation]
+    mode = ['add', 'sub', 'mult'][operation]
     max_bits = 36
     binary1, binary2 = dot_adder(binary1, binary2)
     if operation <= 1:
@@ -38,7 +38,9 @@ def binary_operations(binary1: str, binary2: str, operation: int):
         result = result[-max_bits:]
 
     result = f'{result[:dot]}.{result[dot:]}' if has_fraction else result
-    result = [result.split('.')[0] if '1' not in result.split('.')[1] else result][0] if has_fraction else result
+    if has_fraction:
+        result_split = result.split('.')
+        result = result_split[0] if '1' not in result_split[1] else result
     return result
 
 
@@ -76,7 +78,6 @@ def binary_addition(binary1: str = None, binary2: str = None):
     if not is_binary(binary1) and is_binary(binary2):
         print('Input Error')
         return None
-
     return binary_operations(binary1, binary2, 0)
 
 
@@ -107,3 +108,56 @@ def binary_multiplication(binary1: str = None, binary2: str = None):
     if max_fraction is not None:
         result = [result.split('.')[0] if '1' not in result.split('.')[1] else result][0]
     return result
+
+
+def binary_division(binary1: str = None, binary2: str = None):
+    binary1, binary2 = binary_input(binary1), binary_input(binary2)
+
+    if not is_binary(binary1) and is_binary(binary2):
+        print('Input Error')
+        return None
+
+    binary1, binary2 = dot_adder(binary1, binary2)
+
+    def inner(bin1, bin2):
+        # print(bin1)
+        # print(bin2)
+        quotient = ''
+        max_loop = 12
+        i = 0
+        temp = ''
+        while i <= max_loop:
+            temp += bin1[i] if len(bin1) >= i + 1 else '0'
+            print(temp)
+            quotient += '.' if len(bin1) == i else ''
+            if int(binary_to_decimal(temp)) >= int(binary_to_decimal(binary2)):
+                quotient += '1'
+                temp = binary_subtraction(temp, binary2).lstrip('0')
+            else:
+                quotient += '0'
+            i += 1
+        return quotient
+
+    max_fraction = max(len(binary1.split('.')[1]), len(binary2.split('.')[1])) if '.' in binary1 else 0
+
+    is_bin1_neg = False
+    is_bin2_neg = False
+    if '1' == make_n_bits(binary1)[0]:
+        is_bin1_neg = True
+        binary1 = twos_compliment(binary1)
+
+    if '1' == make_n_bits(binary2)[0]:
+        is_bin2_neg = True
+        binary2 = twos_compliment(binary2)
+
+    if max_fraction > 0:
+        binary1, binary2 = binary1[::-1].zfill(max_fraction)[::-1], binary2[::-1].zfill(max_fraction)[::-1]
+
+    binary1, binary2 = [[binary1.replace('.', ''), binary2.replace('.', '')]
+                        if '.' in binary1 else [binary1, binary2]][0]
+    if is_bin1_neg and is_bin2_neg:
+        return make_n_bits(inner(binary1, binary2))
+    elif is_bin1_neg or is_bin2_neg:
+        return twos_compliment(make_n_bits(inner(binary1, binary2)))
+    return make_n_bits(inner(binary1, binary2))
+

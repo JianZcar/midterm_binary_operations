@@ -3,7 +3,7 @@ from binary import (binary_input, n_bit_spacer, make_n_bits, twos_compliment, bi
 from decimal import (decimal_input, decimal_to_binary, decimal_to_octal, decimal_to_hexa)
 from octal import (octal_input, octal_to_binary, octal_to_decimal, octal_to_hexa)
 from hexa import (hexa_input, hexa_to_binary, hexa_to_decimal, hexa_to_octal)
-from binary_operations import binary_addition, binary_subtraction, binary_multiplication
+from binary_operations import (binary_addition, binary_subtraction, binary_multiplication, binary_division)
 
 
 def null():
@@ -12,7 +12,8 @@ def null():
     b = (decimal_input, decimal_to_binary, decimal_to_octal, decimal_to_hexa)
     c = (octal_input, octal_to_binary, octal_to_decimal, octal_to_hexa)
     d = (hexa_input, hexa_to_binary, hexa_to_decimal, hexa_to_octal)
-    return [a, b, c, d]
+    e = (binary_addition, binary_subtraction, binary_multiplication, binary_division)
+    return [a, b, c, d, e]
 
 
 def main_menu():
@@ -31,19 +32,12 @@ def number_operation():
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
 
         choice = int(input("--> "))
-
-        match choice:
-            case 1:
-                print(n_bit_spacer(binary_addition()))
-            case 2:
-                print(n_bit_spacer(binary_subtraction()))
-            case 3:
-                print(n_bit_spacer(binary_multiplication()))
-            case 4:
-                pass
-            case 5:
-                break
-
+        print()
+        if choice == 5:
+            break
+        chosen_mode = choices[choice - 1].lower()
+        print(chosen_mode)
+        print(n_bit_spacer(eval(f'binary_{chosen_mode}')()))
         input("\nPress Enter to Continue\n")
 
 
