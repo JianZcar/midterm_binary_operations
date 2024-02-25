@@ -29,6 +29,7 @@ def binary_add_sub(binary1: str, binary2: str, operation: str):
                 carry = 0
             result = ('1' if bit1 - bit2 == 1 else '0') + result
 
+
     if len(result) >= 72 and has_fraction:
         result = result[-(max_bits*2):]
     elif len(result) >= 36 and not has_fraction:
@@ -47,4 +48,46 @@ def binary_subtraction(binary1: str, binary2: str):
     return binary_add_sub(binary1, binary2, 'sub')
 
 
+def binary_multiplication(binary1: str, binary2: str):
+    result = '0'
+    for i in range(len(binary2) - 1, -1, -1):
+        if binary2[i] == '1':
+            # Shift binary1 to the left based on the current index in binary2
+            shift = len(binary2) - 1 - i
+            temp = binary1 + '0' * shift
+            # Add temp to the result
+            result = binary_addition(result, temp)
+    return result
+
+# def binary_multiplication(binary1: str, binary2: str):
+#     # Split the binary numbers into integer and fractional parts
+#     binary1_int, binary1_frac = binary1.split('.') if '.' in binary1 else (binary1, '0')
+#     binary2_int, binary2_frac = binary2.split('.') if '.' in binary2 else (binary2, '0')
+#
+#     # Multiply the integer parts
+#     result_int = '0'
+#     for i in range(len(binary2_int) - 1, -1, -1):
+#         if binary2_int[i] == '1':
+#             # Shift binary1_int to the left based on the current index in binary2_int
+#             shift = len(binary2_int) - 1 - i
+#             temp = binary1_int + '0' * shift
+#             # Add temp to the result
+#             result_int = binary_addition(result_int, temp)
+#
+#     # Multiply the fractional parts
+#     result_frac = '0'
+#     for i in range(len(binary2_frac) - 1, -1, -1):
+#         if binary2_frac[i] == '1':
+#             # Shift binary1_frac to the right based on the current index in binary2_frac
+#             shift = len(binary2_frac) - 1 - i
+#             temp = binary1_frac + '0' * shift
+#             # Add temp to the result
+#             result_frac = binary_addition(result_frac, temp)
+#
+#     # Add the results together
+#     result = result_int + '.' + result_frac
+#
+#     return result
+
 print(binary_subtraction('111111111111111111111111111111101010.100', '111111111111111111111111111111010100.11'))
+print(binary_multiplication('101', '10'))

@@ -7,7 +7,7 @@ def octal_input(octal_: str = None):
 
 
 def is_octal(octal_: str) -> bool:
-    characters = "01234567"
+    characters = "01234567."
     if not any(octal_) or octal_.count('.') > 1:
         return False
     for char in octal_:
