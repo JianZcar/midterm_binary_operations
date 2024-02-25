@@ -3,6 +3,7 @@ from binary import (binary_input, n_bit_spacer, make_n_bits, twos_compliment, bi
 from decimal import (decimal_input, decimal_to_binary, decimal_to_octal, decimal_to_hexa)
 from octal import (octal_input, octal_to_binary, octal_to_decimal, octal_to_hexa)
 from hexa import (hexa_input, hexa_to_binary, hexa_to_decimal, hexa_to_octal)
+from binary_operations import binary_addition, binary_subtraction, binary_multiplication
 
 
 def null():
@@ -17,7 +18,7 @@ def null():
 def main_menu():
     while True:
         print("\nMain Menu:")
-        choices = ["Number Operations", "Number Conversion", "Exit"]
+        choices = ["Binary Operations", "Number Conversion", "Exit"]
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
         choice = int(input("--> "))
         print()
@@ -26,22 +27,24 @@ def main_menu():
 
 def number_operation():
     while True:
-        choices = ["Binary Operations", "Decimal Operations", "Octal Operations", "Hexa Operations", "Back"]
+        choices = ["Addition", "Subtraction", "Multiplication", "Division", "Back"]
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
 
         choice = int(input("--> "))
 
         match choice:
             case 1:
-                pass
+                print(n_bit_spacer(binary_addition()))
             case 2:
-                pass
+                print(n_bit_spacer(binary_subtraction()))
             case 3:
-                pass
+                print(n_bit_spacer(binary_multiplication()))
             case 4:
                 pass
             case 5:
                 break
+
+        input("\nPress Enter to Continue\n")
 
 
 def number_conversion():

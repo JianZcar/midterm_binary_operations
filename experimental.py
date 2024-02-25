@@ -11,7 +11,8 @@ def binary_operations(binary1: str, binary2: str, operation: int):
     mode = ['add', 'sub', 'mult', 'div'][operation]
     max_bits = 36
     binary1, binary2 = dot_adder(binary1, binary2)
-    binary1, binary2 = make_n_bits(binary1), make_n_bits(binary2)
+    if operation <= 1:
+        binary1, binary2 = make_n_bits(binary1), make_n_bits(binary2)
 
     has_fraction = True if '.' in binary1 else False
     dot = len(binary1.split('.')[0]) if has_fraction else None
@@ -78,9 +79,19 @@ def binary_subtraction(binary1: str, binary2: str):
 
 
 def binary_multiplication(binary1: str, binary2: str):
-    return binary_operations(binary1, binary2, 2)
+    binary1, binary2 = dot_adder(binary1, binary2)
+    bin_split1, bin_split2 = [binary1.split('.'), binary2.split('.')] if '.' in binary1 else [None, None]
+    max_fraction = max(len(bin_split1[1]), len(bin_split2[1])) if '.' in binary1 else None
+    if '.' in binary1:
+        binary1, binary2 = [f'{bin_split1[0]}{bin_split1[1][::-1].zfill(max_fraction)[::-1]}',
+                            f'{bin_split2[0]}{bin_split2[1][::-1].zfill(max_fraction)[::-1]}']
+    result = binary_operations(binary1, binary2, 2)
+    result = f'{result[:-max_fraction*2]}.{result[-max_fraction*2:]}' if max_fraction is not None else result
+    if max_fraction is not None:
+        result = [result.split('.')[0] if '1' not in result.split('.')[1] else result][0]
+    return result
 
 
 # print(binary_subtraction('111111111111111111111111111111101010.100', '111111111111111111111111111111010100.11'))
-print(binary_multiplication('111111111111111111111111111111101010', '111111111111111111111111111111111100'))
-print(binary_addition('101', '1.1'))
+# print(binary_multiplication('111111111111111111111111111111101010.1', '111111111111111111111111111111111100'))
+print(binary_addition('101', '1'))
