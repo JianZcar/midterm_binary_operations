@@ -3,8 +3,8 @@ from binary import make_n_bits
 
 def binary_add_sub(binary1: str, binary2: str, operation: str):
     max_bits = 36
-    binary1 += '.' if '.' in binary2 else ''
-    binary2 += '.' if '.' in binary1 else ''
+    binary1 += '.' if '.' in binary2 and '.' not in binary1 else ''
+    binary2 += '.' if '.' in binary1 and '.' not in binary2 else ''
     has_fraction = True if '.' in binary1 else False
     binary1, binary2 = make_n_bits(binary1), make_n_bits(binary2)
     dot = len(binary1.split('.')[0]) if has_fraction else None
