@@ -120,19 +120,16 @@ def binary_division(binary1: str = None, binary2: str = None):
     binary1, binary2 = dot_adder(binary1, binary2)
 
     def inner(bin1, bin2):
-        # print(bin1)
-        # print(bin2)
         quotient = ''
         max_loop = 12
         i = 0
         temp = ''
         while i <= max_loop:
             temp += bin1[i] if len(bin1) >= i + 1 else '0'
-            print(temp)
             quotient += '.' if len(bin1) == i else ''
-            if int(binary_to_decimal(temp)) >= int(binary_to_decimal(binary2)):
+            if int(binary_to_decimal(temp)) >= int(binary_to_decimal(bin2)):
                 quotient += '1'
-                temp = binary_subtraction(temp, binary2).lstrip('0')
+                temp = binary_subtraction(temp, bin2).lstrip('0')
             else:
                 quotient += '0'
             i += 1
@@ -151,13 +148,14 @@ def binary_division(binary1: str = None, binary2: str = None):
         binary2 = twos_compliment(binary2)
 
     if max_fraction > 0:
-        binary1, binary2 = binary1[::-1].zfill(max_fraction)[::-1], binary2[::-1].zfill(max_fraction)[::-1]
+        binary1 = f'{binary1.split('.')[0]}{binary1.split('.')[1].zfill(max_fraction)[::-1]}'
+        binary2 = f'{binary2.split('.')[0]}{binary2.split('.')[1].zfill(max_fraction)[::-1]}'
 
     binary1, binary2 = [[binary1.replace('.', ''), binary2.replace('.', '')]
                         if '.' in binary1 else [binary1, binary2]][0]
+
     if is_bin1_neg and is_bin2_neg:
         return make_n_bits(inner(binary1, binary2))
     elif is_bin1_neg or is_bin2_neg:
         return twos_compliment(make_n_bits(inner(binary1, binary2)))
     return make_n_bits(inner(binary1, binary2))
-
