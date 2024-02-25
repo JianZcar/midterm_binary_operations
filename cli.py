@@ -28,13 +28,15 @@ def main_menu():
 
 def number_operation():
     while True:
-        choices = ["Addition", "Subtraction", "Multiplication", "Division", "Back"]
+        choices = ["Addition", "Subtraction", "Multiplication", "Division", "Two's Compliment", "Back"]
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
 
         choice = int(input("--> "))
         print()
-        if choice == 5:
+        if choice == 6:
             break
+        elif choice == 5:
+            print(n_bit_spacer(twos_compliment()))
         chosen_mode = choices[choice - 1].lower()
         print(chosen_mode)
         print(n_bit_spacer(eval(f'binary_{chosen_mode}')()))
