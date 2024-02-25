@@ -1,5 +1,5 @@
 def binary_input(binary: str = None):
-    return input('Enter Binary -> ') if binary is None else binary
+    return input('Enter Binary -> ').replace(' ', '') if binary is None else binary
 
 
 def is_binary(binary: str) -> bool:
