@@ -23,7 +23,6 @@ def binary_operations(binary1: str, binary2: str, operation: int):
     result = ''
     carry = 0
     for i in range(max_len - 1, -1, -1):
-        print(i)
         bit1 = 1 if binary1[i] == '1' else 0
         bit2 = 1 if binary2[i] == '1' else 0
 
