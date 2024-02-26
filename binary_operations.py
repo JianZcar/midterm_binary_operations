@@ -90,23 +90,45 @@ def binary_subtraction(binary1: str = None, binary2: str = None):
 
 
 def binary_multiplication(binary1: str = None, binary2: str = None):
-    binary1, binary2 = binary_input(binary1), binary_input(binary2)
+    binary1, binary2 = (binary_input(binary1).lstrip('0').replace(' ', ''),
+                        binary_input(binary2).lstrip('0').replace(' ', ''))
 
     if not is_binary(binary1) and is_binary(binary2):
         print('Input Error')
         return None
 
+    is_bin1_neg = False
+    is_bin2_neg = False
+
+    if make_n_bits(binary1)[0] == '1':
+        is_bin1_neg = True
+        binary1 = twos_compliment(binary1).lstrip('0').rstrip('0')
+
+    if make_n_bits(binary2)[0] == '1':
+        is_bin2_neg = True
+        binary2 = twos_compliment(binary2).lstrip('0').rstrip('0')
+
     binary1, binary2 = dot_adder(binary1, binary2)
     bin_split1, bin_split2 = [binary1.split('.'), binary2.split('.')] if '.' in binary1 else [None, None]
+    max_whole = max(len(bin_split1[0]), len(bin_split2[0])) if '.' in binary1 else None
+    if max_whole is not None:
+        binary1 = binary1.zfill(max_whole)
+        binary2 = binary2.zfill(max_whole)
     max_fraction = max(len(bin_split1[1]), len(bin_split2[1])) if '.' in binary1 else None
     if '.' in binary1:
-        binary1, binary2 = [f'{bin_split1[0]}{bin_split1[1][::-1].zfill(max_fraction)[::-1]}',
-                            f'{bin_split2[0]}{bin_split2[1][::-1].zfill(max_fraction)[::-1]}']
+        binary1, binary2 = [f'{bin_split1[0]}.{bin_split1[1][::-1].zfill(max_fraction)[::-1]}',
+                            f'{bin_split2[0]}.{bin_split2[1][::-1].zfill(max_fraction)[::-1]}']
+        binary1 = binary1.replace('.', '')
+        binary2 = binary2.replace('.', '')
     result = binary_operations(binary1, binary2, 2)
     result = f'{result[:-max_fraction*2]}.{result[-max_fraction*2:]}' if max_fraction is not None else result
     if max_fraction is not None:
         result = [result.split('.')[0] if '1' not in result.split('.')[1] else result][0]
-    return result
+    if is_bin1_neg and is_bin2_neg:
+        return make_n_bits(result)
+    elif is_bin1_neg or is_bin2_neg:
+        return twos_compliment(make_n_bits(result))
+    return make_n_bits(result)
 
 
 def binary_division(binary1: str = None, binary2: str = None):
@@ -145,9 +167,6 @@ def binary_division(binary1: str = None, binary2: str = None):
     if make_n_bits(binary2)[0] == '1':
         is_bin2_neg = True
         binary2 = twos_compliment(binary2)
-        print(binary1)
-        print(binary2)
-
     if max_fraction > 0:
         binary1 = f'{binary1.split('.')[0]}{binary1.split('.')[1].zfill(max_fraction)[::-1]}'
         binary2 = f'{binary2.split('.')[0]}{binary2.split('.')[1].zfill(max_fraction)[::-1]}'
@@ -162,4 +181,8 @@ def binary_division(binary1: str = None, binary2: str = None):
     return make_n_bits(inner(binary1, binary2))
 
 
-#print(binary_division('101.1', '111111111111111111111111111111111100'))
+print(binary_multiplication('1111 1111 1111 1111 1111 1111 1111 1111 1111.0100 0000 0000 0000 0000 0000 0000 0000 0000',
+                            '1111 1111 1111 1111 1111 1111 1111 1111 1001.1100 0000 0000 0000 0000 0000 0000 0000 0000'))
+# print(binary_multiplication('101', '10'))
+# print(binary_addition('1111 1111 1111 1111 1111 1111 1111 1111 1111.0000 0000 0000 0000 0000 0000 0000 0000 0000',
+#                            '1111 1111 1111 1111 1111 1111 1111 1111 1001.1100 0000 0000 0000 0000 0000 0000 0000 0000'))

@@ -30,15 +30,19 @@ def main_menu():
 
 def number_operation():
     while True:
-        choices = ["Addition", "Subtraction", "Multiplication", "Division", "Two's Compliment", "Back"]
+        choices = ["Addition", "Subtraction", "Multiplication", "Division", "Two's Compliment", "1 Zfill", "Back"]
         [print(f"{num}. {choice}") for num, choice in enumerate(choices, 1)]
 
         choice = int(input("--> "))
         print()
         print(choices[choice-1])
         print()
-        if choice == 6:
+        if choice == 7:
             break
+        elif choice == 6:
+            input_ = binary_input()
+            input_ = f'{input_.split('.')[0].rjust(36, '1')}.{input_.split('.')[1]}' if '.' in input_ else input_
+            print(n_bit_spacer(make_n_bits(input_)))
         elif choice == 5:
             print(n_bit_spacer(twos_compliment()))
         else:

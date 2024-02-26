@@ -23,10 +23,11 @@ def n_bit_spacer(binary: str = None, bit: int = 4):
 
 def make_n_bits(binary: str = None, bits: int = 36):
     """Make into 36 bits"""
+    binary = binary.replace(' ', '')
     if '.' in binary:
         binary = f'{make_n_bits(binary.split('.')[0])}.{make_n_bits(binary.split('.')[1][::-1])[::-1]}'
 
-    elif len(binary.replace(' ', '')) > bits:
+    elif len(binary) > bits:
         print(f'Input binary is more than {bits} bits')
         return None
 
