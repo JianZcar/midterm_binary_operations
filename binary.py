@@ -59,27 +59,24 @@ def binary_to_decimal(binary: str = None):
 
 def twos_compliment(binary: str = None):
     binary = binary_input(binary)
-    dot = None
 
     if not is_binary(binary):
         print('Input Error')
         return None
-
-    has_fraction = True if '.' in binary else False
-
-    if '1' not in binary:
-        return make_n_bits('0')
-
+    once = True
+    result = ''
     binary = make_n_bits(binary)
-
-    if has_fraction:
-        dot = len(binary.split('.')[0])
-        binary = binary.replace('.', '')
-
-    binary = ''.join('1' if bit == '0' else '0' for bit in binary)
-    binary = bin(int(binary, 2) + 1)[2:]
-    binary = f'{binary[:dot]}.{binary[dot:]}' if has_fraction else binary
-    return binary
+    for bit in binary[::-1]:
+        if once is True and bit == '1':
+            result = f'{bit}{result}'
+            once = False
+        elif bit == '.':
+            result = f'{bit}{result}'
+        elif once is not True:
+            result = f'1{result}' if bit == '0' else f'0{result}'
+        else:
+            result = f'{bit}{result}'
+    return result
 
 
 def binary_to_hexa(binary: str = None):

@@ -138,13 +138,15 @@ def binary_division(binary1: str = None, binary2: str = None):
 
     is_bin1_neg = False
     is_bin2_neg = False
-    if '1' == make_n_bits(binary1)[0]:
+    if make_n_bits(binary1)[0] == '1':
         is_bin1_neg = True
         binary1 = twos_compliment(binary1)
 
-    if '1' == make_n_bits(binary2)[0]:
+    if make_n_bits(binary2)[0] == '1':
         is_bin2_neg = True
         binary2 = twos_compliment(binary2)
+        print(binary1)
+        print(binary2)
 
     if max_fraction > 0:
         binary1 = f'{binary1.split('.')[0]}{binary1.split('.')[1].zfill(max_fraction)[::-1]}'
@@ -158,3 +160,6 @@ def binary_division(binary1: str = None, binary2: str = None):
     elif is_bin1_neg or is_bin2_neg:
         return twos_compliment(make_n_bits(inner(binary1, binary2)))
     return make_n_bits(inner(binary1, binary2))
+
+
+#print(binary_division('101.1', '111111111111111111111111111111111100'))
