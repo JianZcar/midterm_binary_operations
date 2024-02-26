@@ -102,11 +102,13 @@ def binary_multiplication(binary1: str = None, binary2: str = None):
 
     if make_n_bits(binary1)[0] == '1':
         is_bin1_neg = True
-        binary1 = twos_compliment(binary1).lstrip('0').rstrip('0')
+        binary1 = twos_compliment(binary1).lstrip('0')
+        binary1 = binary1.rstrip('0') if '.' in binary1 else binary1
 
     if make_n_bits(binary2)[0] == '1':
         is_bin2_neg = True
-        binary2 = twos_compliment(binary2).lstrip('0').rstrip('0')
+        binary2 = twos_compliment(binary2).lstrip('0')
+        binary2 = binary2.rstrip('0') if '.' in binary2 else binary2
 
     binary1, binary2 = dot_adder(binary1, binary2)
     bin_split1, bin_split2 = [binary1.split('.'), binary2.split('.')] if '.' in binary1 else [None, None]
@@ -179,10 +181,3 @@ def binary_division(binary1: str = None, binary2: str = None):
     elif is_bin1_neg or is_bin2_neg:
         return twos_compliment(make_n_bits(inner(binary1, binary2)))
     return make_n_bits(inner(binary1, binary2))
-
-
-print(binary_multiplication('1111 1111 1111 1111 1111 1111 1111 1111 1111.0100 0000 0000 0000 0000 0000 0000 0000 0000',
-                            '1111 1111 1111 1111 1111 1111 1111 1111 1001.1100 0000 0000 0000 0000 0000 0000 0000 0000'))
-# print(binary_multiplication('101', '10'))
-# print(binary_addition('1111 1111 1111 1111 1111 1111 1111 1111 1111.0000 0000 0000 0000 0000 0000 0000 0000 0000',
-#                            '1111 1111 1111 1111 1111 1111 1111 1111 1001.1100 0000 0000 0000 0000 0000 0000 0000 0000'))
