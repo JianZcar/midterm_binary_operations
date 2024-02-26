@@ -159,5 +159,3 @@ def binary_division(binary1: str = None, binary2: str = None):
     elif is_bin1_neg or is_bin2_neg:
         return twos_compliment(make_n_bits(inner(binary1, binary2)))
     return make_n_bits(inner(binary1, binary2))
-
-print(binary_multiplication('101', '10'))
