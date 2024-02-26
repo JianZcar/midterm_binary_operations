@@ -11,8 +11,7 @@ def binary_operations(binary1: str, binary2: str, operation: int):
     mode = ['add', 'sub', 'mult'][operation]
     max_bits = 36
     binary1, binary2 = dot_adder(binary1, binary2)
-    if operation <= 1:
-        binary1, binary2 = make_n_bits(binary1), make_n_bits(binary2)
+    binary1, binary2 = make_n_bits(binary1), make_n_bits(binary2)
 
     has_fraction = True if '.' in binary1 else False
     dot = len(binary1.split('.')[0]) if has_fraction else None
@@ -24,10 +23,11 @@ def binary_operations(binary1: str, binary2: str, operation: int):
     result = ''
     carry = 0
     for i in range(max_len - 1, -1, -1):
+        print(i)
         bit1 = 1 if binary1[i] == '1' else 0
         bit2 = 1 if binary2[i] == '1' else 0
 
-        if operation <= 1:
+        if operation < 2:
             result, carry = eval(f'{mode}_bin')(bit1, bit2, carry, result)
         elif operation == 2:
             result = mult_bin(binary1, binary2, max_bits)
@@ -159,3 +159,5 @@ def binary_division(binary1: str = None, binary2: str = None):
     elif is_bin1_neg or is_bin2_neg:
         return twos_compliment(make_n_bits(inner(binary1, binary2)))
     return make_n_bits(inner(binary1, binary2))
+
+print(binary_multiplication('101', '10'))
